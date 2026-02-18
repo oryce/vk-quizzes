@@ -12,7 +12,7 @@ import {
 } from '@vkontakte/vkui'
 import * as React from 'react'
 
-import { authClient } from '@/lib/auth-client'
+import { authClient } from '@/lib/auth/client'
 
 export function LoginPage() {
   const [email, setEmail] = React.useState('')

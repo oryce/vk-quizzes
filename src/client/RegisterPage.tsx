@@ -1,6 +1,5 @@
 'use client'
 
-import { authClient } from '@/lib/auth-client'
 import {
   Box,
   Button,
@@ -13,6 +12,8 @@ import {
   PanelHeader,
 } from '@vkontakte/vkui'
 import * as React from 'react'
+
+import { authClient } from '@/lib/auth/client'
 
 export function RegisterPage() {
   const [username, setUsername] = React.useState('')

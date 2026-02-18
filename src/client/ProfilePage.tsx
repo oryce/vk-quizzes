@@ -3,7 +3,7 @@
 import { Button, Text } from '@vkontakte/vkui'
 import { useRouter } from 'next/navigation'
 
-import { authClient } from '@/lib/auth-client'
+import { authClient } from '@/lib/auth/client'
 
 export function ProfilePage({ profile }: { profile: { name: string } }) {
   const router = useRouter()

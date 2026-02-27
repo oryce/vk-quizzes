@@ -1,9 +1,12 @@
 import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
 
-import { ProfilePage } from '@/client/ProfilePage'
+import { ProfileView } from '@/client/ProfleView'
 import { auth } from '@/lib/auth'
 
 export default async function Page() {
   const session = await auth.api.getSession({ headers: await headers() })
-  return <ProfilePage profile={session!.user} />
+  if (!session) redirect('/auth/login')
+
+  return <ProfileView id="profile" user={session.user} />
 }

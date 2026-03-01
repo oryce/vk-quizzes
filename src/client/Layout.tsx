@@ -21,10 +21,12 @@ import {
 
 import { usePathname, useRouter } from 'next/navigation'
 
-function LayoutContent({
-  authenticated,
-  children,
-}: Pick<LayoutProps, 'authenticated'> & React.PropsWithChildren) {
+import { authClient } from '@/lib/auth/client'
+
+function LayoutContent({ children }: React.PropsWithChildren) {
+  const { data: session } = authClient.useSession()
+  const authenticated = session !== null
+
   const navigation = [
     authenticated
       ? { id: 'profile', href: '/profile', label: 'Профиль', Icon: Icon28UserCircleOutline }
@@ -86,17 +88,13 @@ function LayoutContent({
   )
 }
 
-type LayoutProps = { authenticated: boolean } & Pick<
-  ConfigProviderProps,
-  'platform' | 'direction'
-> &
-  React.PropsWithChildren
+type LayoutProps = Pick<ConfigProviderProps, 'platform' | 'direction'> & React.PropsWithChildren
 
-export function Layout({ authenticated, platform, direction, children }: LayoutProps) {
+export function Layout({ platform, direction, children }: LayoutProps) {
   return (
     <ConfigProvider platform={platform} direction={direction}>
       <AdaptivityProvider>
-        <LayoutContent authenticated={authenticated}>{children}</LayoutContent>
+        <LayoutContent>{children}</LayoutContent>
       </AdaptivityProvider>
     </ConfigProvider>
   )

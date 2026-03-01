@@ -5,7 +5,6 @@ import { headers } from 'next/headers'
 import '@vkontakte/vkui/dist/cssm/styles/themes.css'
 
 import { Layout } from '@/client/Layout'
-import { auth } from '@/lib/auth'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -28,13 +27,10 @@ export default async function RootLayout({
   const language = acceptLanguage.split(',')[0]
   const direction = ['ar', 'fa', 'he', 'ur'].includes(language) ? 'rtl' : 'ltr'
 
-  const session = await auth.api.getSession({ headers: requestHeaders })
-  const authenticated = session !== null
-
   return (
     <html className="vkui" lang={language} dir={direction}>
       <body className="vkui__root">
-        <Layout authenticated={authenticated} platform={platform} direction={direction}>
+        <Layout platform={platform} direction={direction}>
           {children}
         </Layout>
       </body>

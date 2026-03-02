@@ -1,6 +1,11 @@
 'use client'
 
-import { Icon28DoorArrowRightOutline, Icon28UserCircleOutline } from '@vkontakte/icons'
+import {
+  Icon28CupOutline,
+  Icon28DoorArrowRightOutline,
+  Icon28QuestionOutline,
+  Icon28UserCircleOutline
+} from '@vkontakte/icons'
 import {
   AdaptivityProvider,
   AppRoot,
@@ -31,6 +36,8 @@ function LayoutContent({ children }: React.PropsWithChildren) {
     authenticated
       ? { id: 'profile', href: '/profile', label: 'Профиль', Icon: Icon28UserCircleOutline }
       : { id: 'auth', href: '/auth', label: 'Вход', Icon: Icon28DoorArrowRightOutline },
+    { id: 'quizzes', href: '/quizzes', label: 'Квизы', Icon: Icon28QuestionOutline },
+    { id: 'leaderboard', href: '/leaderboard', label: 'Рейтинг', Icon: Icon28CupOutline },
   ]
 
   const { viewWidth } = useAdaptivityConditionalRender()

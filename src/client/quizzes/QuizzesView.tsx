@@ -28,7 +28,7 @@ export interface QuizSection {
 export interface QuizCard {
   /** Слаг квиза. */
   slug: string
-  /** Изображение на карточке. */
+  /** Ссылка на изображение карточки. */
   cardImageUri: string
   /** Название квиза. */
   name: string
@@ -36,7 +36,7 @@ export interface QuizCard {
   startTime: Date
   /** Отметка времени окончания квиза. */
   endTime: Date
-  /** Количество участников. */
+  /** Число участников. */
   participants: number
 }
 

@@ -10,6 +10,17 @@ export default async function Page() {
     startTime: new Date(),
     endTime: new Date(),
     participants: 100,
+    participating: false,
+    leaderboard: [
+      {
+        name: 'Дмитрий Фролов',
+        score: 100,
+      },
+      {
+        name: 'Денис Рыжков',
+        score: 80,
+      },
+    ],
   }
 
   return <QuizView id="quiz-view" quiz={quiz} />

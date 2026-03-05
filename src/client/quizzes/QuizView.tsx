@@ -7,13 +7,15 @@ import {
   Group,
   Headline,
   Image,
+  List,
   MiniInfoCell,
   Panel,
   PanelHeader,
   PanelHeaderBack,
+  SimpleCell,
   Spacing,
   Text,
-  View
+  View,
 } from '@vkontakte/vkui'
 import { useRouter } from 'next/navigation'
 
@@ -32,6 +34,15 @@ export interface Quiz {
   endTime: Date
   /** Число участников. */
   participants: number
+  /** Участвует ли текущий пользователь в квизе. */
+  participating: boolean
+  /** Результаты квиза. */
+  leaderboard?: {
+    /** Имя участника. */
+    name: string
+    /** Количество очков. */
+    score: number
+  }[]
 }
 
 export function QuizView({ id, quiz }: { id: string; quiz: Quiz }) {
@@ -47,7 +58,7 @@ export function QuizView({ id, quiz }: { id: string; quiz: Quiz }) {
         </PanelHeader>
         <Group>
           <Image src={quiz.coverImageUri} alt={quiz.name} widthSize="100%" keepAspectRatio />
-          <Spacing size="2xl" />
+          <Spacing size="xl" />
 
           <MiniInfoCell mode="accent" before={<Icon20ClockOutline />}>
             С 12:00 до 13:00
@@ -58,24 +69,48 @@ export function QuizView({ id, quiz }: { id: string; quiz: Quiz }) {
           <MiniInfoCell mode="accent" before={<Icon20UserOutline />}>
             Организатор: {quiz.organizer}
           </MiniInfoCell>
-          
+
           <Box padding="xl">
             <Headline weight="1" useAccentWeight>
               О квизе
             </Headline>
-            <Spacing size="m" />
-            
+            <Spacing size="l" />
+
             {lines.map((line, idx) => (
               <>
                 <Text key={idx}>{line}</Text>
                 {idx < lines.length - 1 && <Spacing size="s" />}
               </>
             ))}
-            <Spacing size="4xl" />
-            
-            <Button size="l" stretched>
-              Стать участником
-            </Button>
+
+            {quiz.leaderboard ? (
+              <>
+                <Spacing size="xl" />
+
+                <Headline weight="1" useAccentWeight>
+                  Рейтинг участников
+                </Headline>
+                <List>
+                  {quiz.leaderboard.map(({ name, score }, idx) => (
+                    <SimpleCell
+                      key={idx}
+                      before={<Text>{idx + 1}</Text>}
+                      indicator={`${score} очков`}
+                    >
+                      {name}
+                    </SimpleCell>
+                  ))}
+                </List>
+              </>
+            ) : (
+              <>
+                <Spacing size="4xl" />
+
+                <Button disabled={quiz.participating} size="l" stretched>
+                  {quiz.participating ? 'Вы участвуете' : 'Стать участником'}
+                </Button>
+              </>
+            )}
           </Box>
         </Group>
       </Panel>

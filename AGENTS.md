@@ -4,6 +4,7 @@
 
 ## Стек технологий
 
+- Менеджер пакетов: pnpm
 - Next.js 16, App Router
 - VKUI 7
 - BetterAuth
@@ -24,3 +25,9 @@
 - Не используй deprecated API:
   - `<Div />` → `<Box />`
   - и т.д.
+
+## Миграции
+
+- Сгенерировать миграции: `pnpm exec drizzle-kit generate`
+- Выполнить миграции: `pnpm exec drizzle-kit migrate`
+- `auth-schema.ts` редактировать нельзя, он генерируется: `pnpm dlx @better-auth/cli generate --output ./src/lib/db/auth-schema.ts --yes`

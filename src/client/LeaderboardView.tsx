@@ -53,6 +53,30 @@ function LeaderPlaceholder({ size }: { size: 'm' | 'l' }) {
   return <Box style={dimensions} />
 }
 
+function Scores({
+  rows,
+  startPlace,
+}: {
+  rows: { name: string; score: number }[]
+  startPlace: number
+}) {
+  return (
+    <Group>
+      <List>
+        {rows.map(({ name, score }, idx) => {
+          const place = startPlace + idx
+
+          return (
+            <SimpleCell key={place} before={`${place}`} indicator={`${score} очков`}>
+              {name}
+            </SimpleCell>
+          )
+        })}
+      </List>
+    </Group>
+  )
+}
+
 export function LeaderboardView({
   id,
   leaderboard,
@@ -69,22 +93,6 @@ export function LeaderboardView({
     return { place: idx + 1, name, score }
   }
 
-  const renderRows = (rows: { name: string; score: number }[], startPlace: number) => (
-    <Group>
-      <List>
-        {rows.map(({ name, score }, idx) => {
-          const place = startPlace + idx
-
-          return (
-            <SimpleCell key={place} before={`${place}`} indicator={`${score} очков`}>
-              {name}
-            </SimpleCell>
-          )
-        })}
-      </List>
-    </Group>
-  )
-
   const topRow = rowAt(0)
 
   return (
@@ -97,18 +105,13 @@ export function LeaderboardView({
             <Flex align="center" justify="center" padding="2xl" style={{ paddingBlockEnd: 0 }}>
               {topRow ? <Leader row={topRow} size="l" /> : <LeaderPlaceholder size="l" />}
             </Flex>
-            {leaderboard.length > 1 && renderRows(leaderboard.slice(1), 2)}
+            {leaderboard.length > 1 && <Scores rows={leaderboard.slice(1)} startPlace={2} />}
           </Box>
         )}
 
         {viewWidth.tabletPlus && (
           <Box className={viewWidth.tabletPlus.className}>
-            <Flex
-              align="center"
-              justify="space-between"
-              padding="2xl"
-              paddingBlockEnd="4xl"
-            >
+            <Flex align="center" justify="space-between" padding="2xl" paddingBlockEnd="4xl">
               {[1, 0, 2].map((idx) => {
                 const row = rowAt(idx)
                 const size = idx === 0 ? 'l' : 'm'
@@ -120,7 +123,7 @@ export function LeaderboardView({
                 )
               })}
             </Flex>
-            {leaderboard.length > 3 && renderRows(leaderboard.slice(3), 4)}
+            {leaderboard.length > 3 && <Scores rows={leaderboard.slice(3)} startPlace={4} />}
           </Box>
         )}
       </Panel>

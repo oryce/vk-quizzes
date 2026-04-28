@@ -1,6 +1,10 @@
 'use client'
 
-import { Icon28DoorArrowRightOutline, Icon28MailOutline } from '@vkontakte/icons'
+import {
+  Icon28DoorArrowRightOutline,
+  Icon28MailOutline,
+  Icon28UserStarBadgeOutline,
+} from '@vkontakte/icons'
 import { Avatar, Group, Panel, PanelHeader, SimpleCell, Title, View } from '@vkontakte/vkui'
 import { useRouter } from 'next/navigation'
 
@@ -10,6 +14,14 @@ import { authClient } from '@/lib/auth/client'
 
 export function ProfileView({ id, user }: { id: string; user: User }) {
   const router = useRouter()
+
+  const roleLabels: Record<string, string> = {
+    admin: 'Администратор',
+    organizer: 'Организатор',
+    user: 'Пользователь',
+  }
+
+  const roleLabel = user.role ? (roleLabels[user.role] ?? user.role) : 'Не указана'
 
   const logout = () =>
     authClient.signOut({
@@ -32,6 +44,9 @@ export function ProfileView({ id, user }: { id: string; user: User }) {
           </SimpleCell>
           <SimpleCell before={<Icon28MailOutline />} indicator={user.email}>
             E-mail
+          </SimpleCell>
+          <SimpleCell before={<Icon28UserStarBadgeOutline />} indicator={roleLabel}>
+            Роль
           </SimpleCell>
           <SimpleCell
             before={
